@@ -8,25 +8,19 @@ from fruit import Fruit
 def main():
     # pygame setup
     pygame.init()
+
+    pygame.display.set_caption('Snake THE Game')
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
-
     farbe = pygame.Color(255, 255, 255)
 
-
-    #fruchtX = random.randint(5, 1280 - 15)
-    #fruchtY = random.randint(5, 720 - 15)
-
-    fruchtX = random.randint(5, 800 - 15)
-    fruchtY = random.randint(5, 600 - 15)
 
 
     # Erstelle ein Snake-Objekt
     snake = [SnakePart(100, 100, 22.5, 22.5, (255, 0, 0))]
 
     # Erstelle ein Frucht-Objekt
-#    frucht = Fruit(fruchtX, fruchtY, 10, 10, (0, 255, 0))
-    frucht = Fruit(fruchtX, fruchtY, 10, 10, (0, 255, 0))
+    frucht = Fruit(0, 0, 22.5, 22.5, (0, 255, 0))
 
     running = True
 
@@ -61,7 +55,15 @@ def main():
 
 
         # Überprüfe, ob die Schlange die Frucht gegessen hat
-        if snake[0].x == frucht.x and snake[0].y == frucht.y:
+
+    #    if (frucht.x <= snake[0].x <= frucht.x + frucht.width) and (frucht.y <= snake[0].y <= frucht.y + frucht.height):
+    #   if snake[0].x >= frucht.x and snake[0].y >= frucht.y:
+    #    if (snake[0].x == frucht.x and snake[0].y == frucht.y) or (snake[0].x >= frucht.x and snake[0].y >= frucht.y):
+    #    if (snake[0].x >= frucht.x + frucht.width) and (snake[0].y >= frucht.y + frucht.height):
+    #    if (snake[0].x >= frucht.x) and (snake[0].y >= frucht.y):
+        if snake[0].x >= frucht.x + frucht.width and snake[0].y >= frucht.y + frucht.height:
+            print("Frucht wurde gegessen!")
+
             # Die Schlange hat die Frucht gegessen, also generiere neue zufällige Koordinaten für die Frucht
             frucht.generate()
 
@@ -69,20 +71,23 @@ def main():
         for part in snake:
             part.move(dx, dy)
             part.draw(screen)
+        print("Neue Snakeposition:", snake[0].x, snake[0].y)
 
         #  Zeichnen des Frucht-Blocks
-
         frucht.draw(screen)
+        print("Neue Fruchtposition:", frucht.x, frucht.y)
 
 
 
         pygame.display.flip()
-        clock.tick(20)
+        clock.tick(25)
 
         screen.fill((255,255,255))
 
 
     pygame.quit()
+
+
 
 if __name__ == "__main__":
     main()
